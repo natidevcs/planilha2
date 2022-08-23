@@ -1,0 +1,23 @@
+{
+  "name": "planilha2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natidevcs/planilha2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natidevcs/planilha2/issues"
+  },
+  "homepage": "https://github.com/natidevcs/planilha2#readme",
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
