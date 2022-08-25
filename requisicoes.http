@@ -1,0 +1,8 @@
+GET https://3000-natidevcs-planilha2-2m2mgom32pa.ws-us62.gitpod.io/transacoes
+
+###
+POST https://3000-natidevcs-planilha2-2m2mgom32pa.ws-us62.gitpod.io/transacoes
+content-type: application/json
+meu-Header:"nksjldnkl"
+
+{"valor":10}

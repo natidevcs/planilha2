@@ -1,28 +1,47 @@
-const express = require ('empress')
-const  app = express()
+const express = require ('express')
+
+const TransacoesRepositorio = require("./transacoes-repositorio")
+
+const app = express()
 const port = 3000;
 
+// precisa ter para acessar o body
+app.use(express.json())
 app.use(express.static(`${__dirname}/public`))
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)})
+app.get('/transacoes', (req, res) => { 
+  const repositorio = new TransacoesRepositorio()
+  var transacoes = repositorio.listaTransacoes()
 
-
-/*app.get('/', (req, res) {
-    res.sendFile(`${__dirname}/index.html`)
+  /*{
+    transacoes: [
+      {"valor": 10, "descricao": "bolo", categoria: "Despesa"}
+    ]
+  }*/
+  let saldo = 0
+  transacoes.transacoes.forEach((transacao) => {
+    if(transacao.categoria === "Despesa") {
+      saldo = saldo - transacao.valor
+    }
+    if (transacao.categoria === "Receita") {
+      saldo = saldo + transacao.valor
+    }
   })
-  
+  transacoes.saldo = saldo
 
-/*const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end(`
-  ${re.url}
-  ${re.method}
-  ${rawHeaders}
-  `);
-});*/ 
+  res.send(transacoes)
+})
+
+app.post('/transacoes', (req, res) => {
+  const repositorio = new TransacoesRepositorio()
+  const transacao = req.body
+  repositorio.criarTransacao(transacao)
+  res.status(201).send(transacao)
+}) 
 
 app.listen(port, () => {
-  console.log(`Servidor ouvindo na porta ${port}`);
+  console.log(`Servidor ouvindo na porta ${port}`)
 });
+
+
+
