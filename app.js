@@ -1,17 +1,19 @@
+require('dotenv/config')
 const express = require ('express')
 
-const TransacoesRepositorio = require("./transacoes-repositorio")
+const TransacoesRepositorio = require("./infra/sql-transacoes-repositorio.js")
 
 const app = express()
 const port = 3000;
 
-// precisa ter para acessar o body
+// precisa ter para acessar o req.body
 app.use(express.json())
+ // "serve" arquivos da pasta public
 app.use(express.static(`${__dirname}/public`))
 
-app.get('/transacoes', (req, res) => { 
+app.get('/transacoes', async (req, res) => { 
   const repositorio = new TransacoesRepositorio()
-  var transacoes = repositorio.listaTransacoes()
+  var transacoes = await repositorio.listaTransacoes()
 
   /*{
     transacoes: [
@@ -32,10 +34,10 @@ app.get('/transacoes', (req, res) => {
   res.send(transacoes)
 })
 
-app.post('/transacoes', (req, res) => {
+app.post('/transacoes', async (req, res) => {
   const repositorio = new TransacoesRepositorio()
   const transacao = req.body
-  repositorio.criarTransacao(transacao)
+  await repositorio.criarTransacao(transacao)
   res.status(201).send(transacao)
 }) 
 
